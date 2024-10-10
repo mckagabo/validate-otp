@@ -1,13 +1,13 @@
-const redis = require('redis');
+import redis from 'redis';
 const redisClient = redis.createClient({
     url: process.env.REDIS_URL // Set up Redis URL in your environment variables
 });
 redisClient.connect();
 
-module.exports = async function(req, res) {
+export default async({req, res,log,error})=> {
     try {
-        const userId = req.payload.userId;  // Get userId from request payload
-        const inputOtp = req.payload.otp;   // Get OTP from request payload
+        const userId = req.body.userid;  // Get userId from request payload
+        const inputOtp = req.body.otp;   // Get OTP from request payload
 
         // 1. Retrieve the OTP from Redis cache
         const cachedOtp = await redisClient.get(`otp:${userId}`);
